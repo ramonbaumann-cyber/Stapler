@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Posten 5 – Fehler erkennen</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #eef4fa;
+      color: #12395f;
+    }
+
+    .wrapper {
+      max-width: 1250px;
+      margin: 0 auto;
+      padding: 28px 22px 40px;
+    }
+
+    h1 {
+      margin: 0 0 10px 0;
+      font-size: 60px;
+      line-height: 1;
+      color: #0d4f8b;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      margin-bottom: 24px;
+      color: #365d86;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .card {
+      background: #f7f7f7;
+      border: 1px solid #cfd8e3;
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .card h2 {
+      margin: 0 0 18px 0;
+      font-size: 22px;
+      color: #0d4f8b;
+    }
+
+    .visual-box {
+      background: white;
+      border: 1px solid #d7e2ed;
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .visual-note {
+      margin-top: 16px;
+      font-size: 16px;
+      line-height: 1.55;
+      color: #365d86;
+    }
+
+    .instruction {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .info-box {
+      background: #f6ebc9;
+      border-left: 6px solid #e3a91c;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2f40;
+      margin-bottom: 18px;
+    }
+
+    .scenario-box {
+      background: #edf4fb;
+      border: 1px solid #c8d9eb;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .scenario-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #0d4f8b;
+      margin-bottom: 8px;
+    }
+
+    .scenario-text {
+      font-size: 16px;
+      line-height: 1.55;
+      color: #234a70;
+      margin-bottom: 12px;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      color: #12395f;
+      background: white;
+      border: 1px solid #b8cbe0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      cursor: pointer;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #0d4f8b;
+      color: white;
+    }
+
+    button.secondary {
+      background: #7c94ad;
+    }
+
+    .result {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      font-weight: bold;
+      display: none;
+      line-height: 1.5;
+    }
+
+    .result.good {
+      display: block;
+      background: #e4f6e8;
+      color: #1b5e20;
+      border: 1px solid #9ad2a4;
+    }
+
+    .result.bad {
+      display: block;
+      background: #fdeaea;
+      color: #9f2d2d;
+      border: 1px solid #efb1b1;
+    }
+
+    .discussion-box {
+      margin-top: 20px;
+      background: #f4f8fc;
+      border: 1px solid #cfddea;
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .discussion-box h3 {
+      margin: 0 0 10px 0;
+      color: #0d4f8b;
+      font-size: 20px;
+    }
+
+    .discussion-box p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.55;
+      color: #234a70;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #e6f1fb;
+      border: 1px solid #9ec4e8;
+      color: #0d4f8b;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    @media (max-width: 950px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 42px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <h1>Fehler erkennen</h1>
+    <div class="subtitle">
+      Posten 5 – Entscheidet, ob das Verhalten in Ordnung oder nicht in Ordnung ist.
+    </div>
+
+    <div class="layout">
+      <div class="card">
+        <h2>Skizze</h2>
+
+        <div class="visual-box">
+          <svg viewBox="0 0 760 520" aria-label="Sicheres und unsicheres Verhalten mit Stapler">
+            <!-- Titelbox links -->
+            <rect x="70" y="30" width="250" height="82" rx="16" fill="#e8f6eb" stroke="#79b48a" stroke-width="2"/>
+            <text x="92" y="62" font-size="24" fill="#2f7a45" font-weight="bold">In Ordnung</text>
+            <text x="92" y="88" font-size="18" fill="#2f7a45">Last tief transportieren</text>
+            <text x="92" y="110" font-size="18" fill="#2f7a45">und freie Sicht beachten</text>
+
+            <!-- Titelbox rechts -->
+            <rect x="440" y="30" width="250" height="82" rx="16" fill="#fff3f1" stroke="#ef5a4c" stroke-width="2"/>
+            <text x="462" y="62" font-size="24" fill="#ef5a4c" font-weight="bold">Nicht in Ordnung</text>
+            <text x="462" y="88" font-size="18" fill="#ef5a4c">Last hoch transportieren</text>
+            <text x="462" y="110" font-size="18" fill="#ef5a4c">oder Sicht verdecken</text>
+
+            <!-- Linke sichere Szene -->
+            <text x="125" y="150" font-size="22" fill="#0d4f8b" font-weight="bold">Sichere Situation</text>
+
+            <g transform="translate(180 300)">
+              <rect x="-82" y="-34" width="126" height="62" rx="12" fill="#f0c92c" stroke="#314b5f" stroke-width="3"/>
+              <rect x="26" y="-101" width="24" height="67" rx="4" fill="#314b5f"/>
+              <rect x="49" y="-132" width="16" height="160" fill="#314b5f"/>
+              <rect x="65" y="-7" width="58" height="8" fill="#5a6e7f"/>
+              <rect x="65" y="16" width="58" height="8" fill="#5a6e7f"/>
+
+              <circle cx="-38" cy="37" r="24" fill="#314b5f"/>
+              <circle cx="-38" cy="37" r="10" fill="#c7d4df"/>
+              <circle cx="38" cy="37" r="22" fill="#314b5f"/>
+              <circle cx="38" cy="37" r="9" fill="#c7d4df"/>
+
+              <rect x="128" y="-2" width="48" height="34" fill="#dcc8a0" stroke="#9e8460" stroke-width="3"/>
+              <line x1="152" y1="-2" x2="152" y2="32" stroke="#9e8460" stroke-width="2"/>
+              <line x1="128" y1="15" x2="176" y2="15" stroke="#9e8460" stroke-width="2"/>
+            </g>
+
+            <text x="88" y="390" font-size="18" fill="#2f7a45" font-weight="bold">Last tief und nahe beim Mast</text>
+
+            <!-- Rechte unsichere Szene -->
+            <text x="492" y="150" font-size="22" fill="#0d4f8b" font-weight="bold">Unsichere Situation</text>
+
+            <g transform="translate(545 300)">
+              <rect x="-82" y="-34" width="126" height="62" rx="12" fill="#e5b91f" stroke="#314b5f" stroke-width="3"/>
+              <rect x="26" y="-118" width="24" height="84" rx="4" fill="#314b5f"/>
+              <rect x="49" y="-160" width="16" height="188" fill="#314b5f"/>
+              <rect x="65" y="-74" width="95" height="8" fill="#5a6e7f"/>
+              <rect x="65" y="-48" width="95" height="8" fill="#5a6e7f"/>
+
+              <circle cx="-38" cy="37" r="24" fill="#314b5f"/>
+              <circle cx="-38" cy="37" r="10" fill="#c7d4df"/>
+              <circle cx="38" cy="37" r="22" fill="#314b5f"/>
+              <circle cx="38" cy="37" r="9" fill="#c7d4df"/>
+
+              <rect x="168" y="-95" width="70" height="56" fill="#dcc8a0" stroke="#9e8460" stroke-width="3"/>
+              <line x1="203" y1="-95" x2="203" y2="-39" stroke="#9e8460" stroke-width="2"/>
+              <line x1="168" y1="-67" x2="238" y2="-67" stroke="#9e8460" stroke-width="2"/>
+            </g>
+
+            <text x="465" y="390" font-size="18" fill="#ef5a4c" font-weight="bold">Last hoch und Sicht schlechter</text>
+
+            <!-- Boden -->
+            <line x1="90" y1="365" x2="690" y2="365" stroke="#aabed1" stroke-width="4"/>
+
+            <!-- Merkleiste -->
+            <rect x="95" y="425" width="570" height="58" rx="14" fill="#eef5fb" stroke="#b9cfe3" stroke-width="2"/>
+            <text x="120" y="460" font-size="20" fill="#0d4f8b" font-weight="bold">
+              Merksatz: Gute Sicht und tiefe Lasten machen das Fahren sicherer.
+            </text>
+          </svg>
+
+          <div class="visual-note">
+            Gute Sicht, tiefe Last und eine kontrollierte Fahrweise sind wichtige Grundlagen für sicheres Arbeiten
+            mit dem Stapler.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Auftrag</h2>
+
+        <div class="instruction">
+          1. Lest jede Situation genau.<br><br>
+          2. Entscheidet, ob das Verhalten <strong>in Ordnung</strong> oder <strong>nicht in Ordnung</strong> ist.<br><br>
+          3. Prüft danach eure Antworten.<br><br>
+          4. Diskutiert am Schluss gemeinsam die Zusatzfrage.
+        </div>
+
+        <div class="info-box">
+          Merkhilfe: Sicheres Arbeiten bedeutet nicht nur richtiges Rechnen, sondern auch richtiges Verhalten.
+        </div>
+
+        <div class="scenario-box" id="box1">
+          <div class="scenario-title">Situation 1</div>
+          <div class="scenario-text">
+            Ein Fahrer transportiert eine Last <strong>tief über dem Boden</strong> und fährt langsam durch die Halle.
+          </div>
+          <div class="radio-group">
+            <label><input type="radio" name="a1" value="inOrdnung"> in Ordnung</label>
+            <label><input type="radio" name="a1" value="nichtInOrdnung"> nicht in Ordnung</label>
+          </div>
+        </div>
+
+        <div class="scenario-box" id="box2">
+          <div class="scenario-title">Situation 2</div>
+          <div class="scenario-text">
+            Ein Fahrer fährt mit einer Last, die <strong>so hoch angehoben ist, dass die Sicht nach vorne eingeschränkt</strong> ist.
+          </div>
+          <div class="radio-group">
+            <label><input type="radio" name="a2" value="inOrdnung"> in Ordnung</label>
+            <label><input type="radio" name="a2" value="nichtInOrdnung"> nicht in Ordnung</label>
+          </div>
+        </div>
+
+        <div class="scenario-box" id="box3">
+          <div class="scenario-title">Situation 3</div>
+          <div class="scenario-text">
+            Eine Last wird <strong>nahe beim Mast</strong> aufgenommen und anschliessend vorsichtig transportiert.
+          </div>
+          <div class="radio-group">
+            <label><input type="radio" name="a3" value="inOrdnung"> in Ordnung</label>
+            <label><input type="radio" name="a3" value="nichtInOrdnung"> nicht in Ordnung</label>
+          </div>
+        </div>
+
+        <div class="scenario-box" id="box4">
+          <div class="scenario-title">Situation 4</div>
+          <div class="scenario-text">
+            Ein Fahrer beschleunigt stark, obwohl die Last <strong>weit vorne auf der Gabel</strong> liegt.
+          </div>
+          <div class="radio-group">
+            <label><input type="radio" name="a4" value="inOrdnung"> in Ordnung</label>
+            <label><input type="radio" name="a4" value="nichtInOrdnung"> nicht in Ordnung</label>
+          </div>
+        </div>
+
+        <div class="buttons">
+          <button onclick="pruefen()">Lösungen prüfen</button>
+          <button class="secondary" onclick="zuruecksetzen()">Zurücksetzen</button>
+        </div>
+
+        <div id="result" class="result"></div>
+
+        <div class="discussion-box">
+          <h3>Zusatzfrage für die Gruppe</h3>
+          <p>
+            Diskutiert in der Gruppe: Welche drei Verhaltensregeln sind beim Fahren mit Last aus eurer Sicht am wichtigsten?
+          </p>
+          <div class="badge">Gruppengespräch statt Eingabe</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function pruefen() {
+      const loesungen = {
+        a1: "inOrdnung",
+        a2: "nichtInOrdnung",
+        a3: "inOrdnung",
+        a4: "nichtInOrdnung"
+      };
+
+      let korrekt = 0;
+      let total = 4;
+
+      for (const id in loesungen) {
+        const checked = document.querySelector(`input[name="${id}"]:checked`);
+        const box = document.getElementById("box" + id.substring(1));
+
+        if (checked && checked.value === loesungen[id]) {
+          korrekt++;
+          box.style.border = "2px solid #3c9a52";
+          box.style.backgroundColor = "#eef9f0";
+        } else {
+          box.style.border = "2px solid #c94141";
+          box.style.backgroundColor = "#fff1f1";
+        }
+      }
+
+      const result = document.getElementById("result");
+
+      if (korrekt === total) {
+        result.className = "result good";
+        result.innerHTML = "Sehr gut – alle 4 Situationen wurden richtig beurteilt.";
+      } else {
+        result.className = "result bad";
+        result.innerHTML = "Noch nicht alles richtig. Richtig sind <strong>" + korrekt + " von 4</strong> Situationen.";
+      }
+    }
+
+    function zuruecksetzen() {
+      const namen = ["a1", "a2", "a3", "a4"];
+
+      namen.forEach((name, index) => {
+        const radios = document.querySelectorAll(`input[name="${name}"]`);
+        radios.forEach(radio => radio.checked = false);
+
+        const box = document.getElementById("box" + (index + 1));
+        box.style.border = "1px solid #c8d9eb";
+        box.style.backgroundColor = "#edf4fb";
+      });
+
+      const result = document.getElementById("result");
+      result.className = "result";
+      result.innerHTML = "";
+    }
+  </script>
+</body>
+</html>
