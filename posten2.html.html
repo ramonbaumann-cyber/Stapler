@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Posten 2 – Drehmoment berechnen</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #eef4fa;
+      color: #12395f;
+    }
+
+    .wrapper {
+      max-width: 1250px;
+      margin: 0 auto;
+      padding: 28px 22px 40px;
+    }
+
+    h1 {
+      margin: 0 0 10px 0;
+      font-size: 60px;
+      line-height: 1;
+      color: #0d4f8b;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      margin-bottom: 24px;
+      color: #365d86;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.9fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .card {
+      background: #f7f7f7;
+      border: 1px solid #cfd8e3;
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .card h2 {
+      margin: 0 0 18px 0;
+      font-size: 22px;
+      color: #0d4f8b;
+    }
+
+    .visual-box {
+      background: white;
+      border: 1px solid #d7e2ed;
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .visual-note {
+      margin-top: 16px;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #365d86;
+    }
+
+    .formula-box {
+      margin-top: 16px;
+      background: #e8f2fb;
+      border: 1px solid #bfd8ef;
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .formula-box strong {
+      display: block;
+      font-size: 21px;
+      color: #0d4f8b;
+      margin-bottom: 6px;
+    }
+
+    .formula-box p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .instruction {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .info-box {
+      background: #f6ebc9;
+      border-left: 6px solid #e3a91c;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2f40;
+      margin-bottom: 18px;
+    }
+
+    .task {
+      background: #edf4fb;
+      border: 1px solid #c8d9eb;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .task:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .task-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #0d4f8b;
+      margin-bottom: 8px;
+    }
+
+    .task-text {
+      font-size: 16px;
+      line-height: 1.5;
+      color: #234a70;
+      margin-bottom: 10px;
+    }
+
+    .task label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #12395f;
+    }
+
+    .task input {
+      width: 190px;
+      max-width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #b8cbe0;
+      border-radius: 10px;
+      font-size: 15px;
+      background: white;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #0d4f8b;
+      color: white;
+    }
+
+    button.secondary {
+      background: #7c94ad;
+    }
+
+    .result {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      font-weight: bold;
+      display: none;
+      line-height: 1.5;
+    }
+
+    .result.good {
+      display: block;
+      background: #e4f6e8;
+      color: #1b5e20;
+      border: 1px solid #9ad2a4;
+    }
+
+    .result.bad {
+      display: block;
+      background: #fdeaea;
+      color: #9f2d2d;
+      border: 1px solid #efb1b1;
+    }
+
+    .discussion-box {
+      margin-top: 20px;
+      background: #f4f8fc;
+      border: 1px solid #cfddea;
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .discussion-box h3 {
+      margin: 0 0 10px 0;
+      color: #0d4f8b;
+      font-size: 20px;
+    }
+
+    .discussion-box p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.55;
+      color: #234a70;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #e6f1fb;
+      border: 1px solid #9ec4e8;
+      color: #0d4f8b;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    @media (max-width: 950px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 42px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <h1>Drehmoment berechnen</h1>
+    <div class="subtitle">
+      Posten 2 – Berechnet Drehmomente mit dem Hebelgesetz und diskutiert anschliessend in der Gruppe.
+    </div>
+
+    <div class="layout">
+      <div class="card">
+        <h2>Skizze</h2>
+
+        <div class="visual-box">
+          <svg viewBox="0 0 760 470" aria-label="Hebel und Lasten">
+            <!-- Bodenlinie -->
+            <line x1="60" y1="360" x2="700" y2="360" stroke="#aabed1" stroke-width="4"/>
+
+            <!-- Drehpunkt -->
+            <polygon points="360,330 330,360 390,360" fill="#d94b43"/>
+            <circle cx="360" cy="330" r="8" fill="#d94b43"/>
+
+            <!-- Hebel -->
+            <line x1="150" y1="260" x2="580" y2="310" stroke="#5a6e7f" stroke-width="12" stroke-linecap="round"/>
+
+            <!-- Linke Last -->
+            <rect x="165" y="180" width="70" height="55" rx="6" fill="#f0c92c" stroke="#314b5f" stroke-width="3"/>
+            <line x1="200" y1="235" x2="200" y2="258" stroke="#314b5f" stroke-width="3"/>
+
+            <!-- Rechte Last -->
+            <rect x="520" y="210" width="85" height="65" rx="6" fill="#dcc8a0" stroke="#9e8460" stroke-width="3"/>
+            <line x1="562" y1="275" x2="562" y2="307" stroke="#9e8460" stroke-width="3"/>
+
+            <!-- Pfeile Gewicht -->
+            <line x1="200" y1="135" x2="200" y2="180" stroke="#1f7a3f" stroke-width="4"/>
+            <polygon points="200,180 192,165 208,165" fill="#1f7a3f"/>
+
+            <line x1="562" y1="160" x2="562" y2="210" stroke="#1f7a3f" stroke-width="4"/>
+            <polygon points="562,210 554,195 570,195" fill="#1f7a3f"/>
+
+            <!-- Saubere Beschriftung oben -->
+            <text x="145" y="125" font-size="24" fill="#1f7a3f" font-weight="bold">Kraft links</text>
+            <text x="500" y="150" font-size="24" fill="#1f7a3f" font-weight="bold">Kraft rechts</text>
+
+            <!-- Hebelarme unten -->
+            <line x1="200" y1="345" x2="360" y2="345" stroke="#0d4f8b" stroke-width="4"/>
+            <line x1="360" y1="345" x2="562" y2="345" stroke="#0d4f8b" stroke-width="4"/>
+
+            <text x="205" y="335" font-size="22" fill="#0d4f8b" font-weight="bold">Hebelarm links</text>
+            <text x="400" y="335" font-size="22" fill="#0d4f8b" font-weight="bold">Hebelarm rechts</text>
+
+            <!-- Drehpunkt Text -->
+            <text x="378" y="390" font-size="24" fill="#d94b43" font-weight="bold">Drehpunkt</text>
+          </svg>
+
+          <div class="visual-note">
+            In der Skizze wirken links und rechts Kräfte auf einen Hebel. Entscheidend ist nicht nur die Kraft,
+            sondern auch der Abstand zum Drehpunkt.
+          </div>
+
+          <div class="formula-box">
+            <strong>Formel</strong>
+            <p>Drehmoment = Kraft × Hebelarm</p>
+            <p>Einheit: <strong>Newtonmeter (Nm)</strong></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Auftrag</h2>
+
+        <div class="instruction">
+          1. Berechnet die vier Drehmomente.<br><br>
+          2. Schreibt das Resultat jeweils in <strong>Nm</strong>.<br><br>
+          3. Prüft eure Lösungen.<br><br>
+          4. Diskutiert danach gemeinsam die Zusatzfrage.
+        </div>
+
+        <div class="info-box">
+          Beispiel: 150 N × 4 m = 600 Nm
+        </div>
+
+        <div class="task">
+          <div class="task-title">Aufgabe 1</div>
+          <div class="task-text">Kraft links = 120 N, Hebelarm links = 3 m</div>
+          <label for="a1">Drehmoment:</label>
+          <input type="text" id="a1" placeholder="z. B. 360 Nm">
+        </div>
+
+        <div class="task">
+          <div class="task-title">Aufgabe 2</div>
+          <div class="task-text">Kraft rechts = 250 N, Hebelarm rechts = 1.2 m</div>
+          <label for="a2">Drehmoment:</label>
+          <input type="text" id="a2" placeholder="z. B. 300 Nm">
+        </div>
+
+        <div class="task">
+          <div class="task-title">Aufgabe 3</div>
+          <div class="task-text">Kraft links = 80 N, Hebelarm links = 4.5 m</div>
+          <label for="a3">Drehmoment:</label>
+          <input type="text" id="a3" placeholder="z. B. 360 Nm">
+        </div>
+
+        <div class="task">
+          <div class="task-title">Aufgabe 4</div>
+          <div class="task-text">Kraft rechts = 400 N, Hebelarm rechts = 0.75 m</div>
+          <label for="a4">Drehmoment:</label>
+          <input type="text" id="a4" placeholder="z. B. 300 Nm">
+        </div>
+
+        <div class="buttons">
+          <button onclick="pruefen()">Lösungen prüfen</button>
+          <button class="secondary" onclick="zuruecksetzen()">Zurücksetzen</button>
+        </div>
+
+        <div id="result" class="result"></div>
+
+        <div class="discussion-box">
+          <h3>Zusatzfrage für die Gruppe</h3>
+          <p>
+            Diskutiert in der Gruppe: Warum kann eine kleine Kraft mit einem langen Hebelarm
+            manchmal die gleiche Wirkung haben wie eine grosse Kraft mit einem kurzen Hebelarm?
+          </p>
+          <div class="badge">Gruppengespräch statt Eingabe</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function normalizeAnswer(text) {
+      return text
+        .toLowerCase()
+        .replaceAll("newtonmeter", "")
+        .replaceAll("nm", "")
+        .replaceAll(" ", "")
+        .replaceAll(",", ".");
+    }
+
+    function pruefen() {
+      const loesungen = {
+        a1: "360",
+        a2: "300",
+        a3: "360",
+        a4: "300"
+      };
+
+      let korrekt = 0;
+      let total = 4;
+
+      for (const id in loesungen) {
+        const feld = document.getElementById(id);
+        const eingabe = normalizeAnswer(feld.value);
+        const richtig = loesungen[id];
+
+        if (eingabe === richtig) {
+          korrekt++;
+          feld.style.border = "2px solid #3c9a52";
+          feld.style.backgroundColor = "#eef9f0";
+        } else {
+          feld.style.border = "2px solid #c94141";
+          feld.style.backgroundColor = "#fff1f1";
+        }
+      }
+
+      const result = document.getElementById("result");
+
+      if (korrekt === total) {
+        result.className = "result good";
+        result.innerHTML = "Sehr gut – alle 4 Rechnungen sind richtig.";
+      } else {
+        result.className = "result bad";
+        result.innerHTML = "Noch nicht alles richtig. Richtig sind <strong>" + korrekt + " von 4</strong> Aufgaben.";
+      }
+    }
+
+    function zuruecksetzen() {
+      const ids = ["a1", "a2", "a3", "a4"];
+
+      ids.forEach(id => {
+        const feld = document.getElementById(id);
+        feld.value = "";
+        feld.style.border = "1px solid #b8cbe0";
+        feld.style.backgroundColor = "white";
+      });
+
+      const result = document.getElementById("result");
+      result.className = "result";
+      result.innerHTML = "";
+    }
+  </script>
+</body>
+</html>
