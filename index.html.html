@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Postenübersicht – Hebelgesetz beim Stapler</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #eef4fa;
+      color: #12395f;
+    }
+
+    .wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px 50px;
+    }
+
+    h1 {
+      margin: 0 0 12px 0;
+      font-size: 58px;
+      line-height: 1;
+      color: #0d4f8b;
+    }
+
+    .subtitle {
+      font-size: 20px;
+      line-height: 1.5;
+      color: #365d86;
+      margin-bottom: 28px;
+      max-width: 900px;
+    }
+
+    .intro-card {
+      background: #f7f7f7;
+      border: 1px solid #cfd8e3;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      margin-bottom: 26px;
+    }
+
+    .intro-card h2 {
+      margin: 0 0 14px 0;
+      font-size: 24px;
+      color: #0d4f8b;
+    }
+
+    .intro-card p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.6;
+      color: #234a70;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .posten-card {
+      display: block;
+      text-decoration: none;
+      background: #f7f7f7;
+      border: 1px solid #cfd8e3;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .posten-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+      border-color: #9ec4e8;
+    }
+
+    .posten-number {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: #e6f1fb;
+      border: 1px solid #9ec4e8;
+      color: #0d4f8b;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .posten-card h3 {
+      margin: 0 0 10px 0;
+      font-size: 28px;
+      color: #0d4f8b;
+    }
+
+    .posten-card p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.55;
+      color: #234a70;
+    }
+
+    .footer-note {
+      margin-top: 28px;
+      padding: 18px 20px;
+      background: #f6ebc9;
+      border-left: 6px solid #e3a91c;
+      border-radius: 14px;
+      font-size: 16px;
+      line-height: 1.55;
+      color: #1f2f40;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 42px;
+      }
+
+      .posten-card h3 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <h1>Hebelgesetz beim Stapler</h1>
+    <div class="subtitle">
+      Wählt einen Posten aus und bearbeitet die Aufgabe. Jeder Posten behandelt einen anderen Teil
+      zum Thema Hebelgesetz, Drehmoment und Staplersicherheit.
+    </div>
+
+    <div class="intro-card">
+      <h2>Startseite</h2>
+      <p>
+        Klickt auf einen Posten, um direkt zur jeweiligen Aufgabe zu gelangen.
+        Arbeitet sorgfältig und besprecht die Zusatzfragen jeweils in der Gruppe.
+      </p>
+    </div>
+
+    <div class="grid">
+      <a class="posten-card" href="https://ramonbaumann-cyber.github.io/Stapler/posten1.html">
+        <div class="posten-number">Posten 1</div>
+        <h3>Begriffe zuordnen</h3>
+        <p>Ordnet die Fachbegriffe den richtigen Stellen beim Stapler zu.</p>
+      </a>
+
+      <a class="posten-card" href="https://ramonbaumann-cyber.github.io/Stapler/posten2.html">
+        <div class="posten-number">Posten 2</div>
+        <h3>Drehmoment berechnen</h3>
+        <p>Berechnet verschiedene Drehmomente mit Kraft und Hebelarm.</p>
+      </a>
+
+      <a class="posten-card" href="https://ramonbaumann-cyber.github.io/Stapler/posten3.html">
+        <div class="posten-number">Posten 3</div>
+        <h3>Situationen beurteilen</h3>
+        <p>Entscheidet, ob eine Situation stabil, kritisch oder kippgefährdet ist.</p>
+      </a>
+
+      <a class="posten-card" href="https://ramonbaumann-cyber.github.io/Stapler/posten4.html">
+        <div class="posten-number">Posten 4</div>
+        <h3>Richtig oder falsch?</h3>
+        <p>Beurteilt Aussagen zum Hebelgesetz und zur Staplersicherheit.</p>
+      </a>
+
+      <a class="posten-card" href="https://ramonbaumann-cyber.github.io/Stapler/posten5.html">
+        <div class="posten-number">Posten 5</div>
+        <h3>Fehler erkennen</h3>
+        <p>Entscheidet, ob ein Verhalten in Ordnung oder nicht in Ordnung ist.</p>
+      </a>
+    </div>
+
+    <div class="footer-note">
+      Hinweis: Diese Übersicht verlinkt direkt auf die veröffentlichten GitHub-Seiten der einzelnen Posten.
+    </div>
+  </div>
+</body>
+</html>
