@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Posten 3 – Situationen beurteilen</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #eef4fa;
+      color: #12395f;
+    }
+
+    .wrapper {
+      max-width: 1250px;
+      margin: 0 auto;
+      padding: 28px 22px 40px;
+    }
+
+    h1 {
+      margin: 0 0 10px 0;
+      font-size: 60px;
+      line-height: 1;
+      color: #0d4f8b;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      margin-bottom: 24px;
+      color: #365d86;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .card {
+      background: #f7f7f7;
+      border: 1px solid #cfd8e3;
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .card h2 {
+      margin: 0 0 18px 0;
+      font-size: 22px;
+      color: #0d4f8b;
+    }
+
+    .visual-box {
+      background: white;
+      border: 1px solid #d7e2ed;
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .visual-note {
+      margin-top: 16px;
+      font-size: 16px;
+      line-height: 1.55;
+      color: #365d86;
+    }
+
+    .info-box {
+      background: #f6ebc9;
+      border-left: 6px solid #e3a91c;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2f40;
+      margin-bottom: 18px;
+    }
+
+    .instruction {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .case-box {
+      background: #edf4fb;
+      border: 1px solid #c8d9eb;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .case-box:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .case-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #0d4f8b;
+      margin-bottom: 8px;
+    }
+
+    .case-text {
+      font-size: 16px;
+      line-height: 1.5;
+      color: #234a70;
+      margin-bottom: 12px;
+    }
+
+    .case-box select {
+      width: 100%;
+      max-width: 280px;
+      padding: 10px 12px;
+      border: 1px solid #b8cbe0;
+      border-radius: 10px;
+      font-size: 15px;
+      background: white;
+      color: #12395f;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #0d4f8b;
+      color: white;
+    }
+
+    button.secondary {
+      background: #7c94ad;
+    }
+
+    .result {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      font-weight: bold;
+      display: none;
+      line-height: 1.5;
+    }
+
+    .result.good {
+      display: block;
+      background: #e4f6e8;
+      color: #1b5e20;
+      border: 1px solid #9ad2a4;
+    }
+
+    .result.bad {
+      display: block;
+      background: #fdeaea;
+      color: #9f2d2d;
+      border: 1px solid #efb1b1;
+    }
+
+    .discussion-box {
+      margin-top: 20px;
+      background: #f4f8fc;
+      border: 1px solid #cfddea;
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .discussion-box h3 {
+      margin: 0 0 10px 0;
+      color: #0d4f8b;
+      font-size: 20px;
+    }
+
+    .discussion-box p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.55;
+      color: #234a70;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #e6f1fb;
+      border: 1px solid #9ec4e8;
+      color: #0d4f8b;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    @media (max-width: 950px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 42px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <h1>Situationen beurteilen</h1>
+    <div class="subtitle">
+      Posten 3 – Entscheidet, ob die Situation stabil, kritisch oder kippgefährdet ist.
+    </div>
+
+    <div class="layout">
+      <div class="card">
+        <h2>Skizze</h2>
+
+        <div class="visual-box">
+          <svg viewBox="0 0 760 500" aria-label="Stapler auf Rampe">
+            <!-- Rampe -->
+            <polygon points="70,390 640,390 640,340 170,340" fill="#dbe6ef"/>
+            <line x1="120" y1="390" x2="640" y2="340" stroke="#8da8bf" stroke-width="8"/>
+
+            <!-- Sicherer Bereich -->
+            <rect x="82" y="74" width="240" height="74" rx="14" fill="#e8f6eb" stroke="#79b48a" stroke-width="2"/>
+            <text x="100" y="104" font-size="22" fill="#2f7a45" font-weight="bold">Sicherer Bereich</text>
+            <text x="100" y="130" font-size="17" fill="#2f7a45">Last tief und nahe beim Mast</text>
+
+            <!-- Warnbereich -->
+            <rect x="505" y="176" width="178" height="92" rx="12" fill="#fff3f1" stroke="#ef5a4c" stroke-width="2"/>
+            <text x="523" y="208" font-size="22" fill="#ef5a4c" font-weight="bold">Kippgefahr</text>
+            <text x="523" y="234" font-size="17" fill="#ef5a4c">Last weit vorne</text>
+            <text x="523" y="256" font-size="17" fill="#ef5a4c">oder angehoben</text>
+
+            <!-- Stapler -->
+            <g transform="translate(300 290) rotate(-6)">
+              <rect x="-120" y="-45" width="150" height="68" rx="12" fill="#f0c92c" stroke="#314b5f" stroke-width="3"/>
+              <rect x="5" y="-110" width="28" height="65" rx="4" fill="#314b5f"/>
+              <rect x="33" y="-145" width="18" height="168" fill="#314b5f"/>
+              <rect x="51" y="-10" width="95" height="10" fill="#5a6e7f"/>
+              <rect x="51" y="18" width="95" height="10" fill="#5a6e7f"/>
+
+              <circle cx="-70" cy="35" r="28" fill="#314b5f"/>
+              <circle cx="-70" cy="35" r="10" fill="#c7d4df"/>
+              <circle cx="18" cy="35" r="26" fill="#314b5f"/>
+              <circle cx="18" cy="35" r="9" fill="#c7d4df"/>
+
+              <rect x="150" y="-28" width="80" height="62" fill="#dcc8a0" stroke="#9e8460" stroke-width="3"/>
+              <line x1="177" y1="-28" x2="177" y2="34" stroke="#9e8460" stroke-width="2"/>
+              <line x1="204" y1="-28" x2="204" y2="34" stroke="#9e8460" stroke-width="2"/>
+              <line x1="150" y1="3" x2="230" y2="3" stroke="#9e8460" stroke-width="2"/>
+            </g>
+
+            <!-- Schwerpunktlinie -->
+            <line x1="468" y1="152" x2="490" y2="314" stroke="#ef5a4c" stroke-width="3" stroke-dasharray="8 8"/>
+            <text x="390" y="140" font-size="18" fill="#ef5a4c" font-weight="bold">Schwerpunkt wandert nach vorne</text>
+
+            <!-- Rampe Text links, weiter weg -->
+            <text x="96" y="182" font-size="18" fill="#0d4f8b" font-weight="bold">Rampe erhöht das Risiko</text>
+            <line x1="235" y1="188" x2="304" y2="244" stroke="#0d4f8b" stroke-width="3"/>
+
+            <!-- Last vorne Text oben, Linie ohne roten Bereich -->
+            <text x="540" y="160" font-size="18" fill="#0d4f8b" font-weight="bold">Last vorne</text>
+            <line x1="562" y1="166" x2="500" y2="214" stroke="#0d4f8b" stroke-width="3"/>
+
+            <!-- Bodenhinweis -->
+            <text x="88" y="442" font-size="18" fill="#365d86">
+              Auf Rampen, in Kurven und mit angehobener Last steigt die Kippgefahr deutlich.
+            </text>
+          </svg>
+
+          <div class="visual-note">
+            Die Situation wird kritischer, wenn der Stapler auf einer Rampe fährt, die Last angehoben ist
+            oder der Schwerpunkt zu weit nach vorne wandert.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Auftrag</h2>
+
+        <div class="instruction">
+          1. Lest jede Situation genau.<br><br>
+          2. Entscheidet, ob die Lage <strong>stabil</strong>, <strong>kritisch</strong> oder <strong>kippgefährdet</strong> ist.<br><br>
+          3. Prüft danach eure Auswahl.<br><br>
+          4. Diskutiert am Schluss gemeinsam die Zusatzfrage.
+        </div>
+
+        <div class="info-box">
+          Merkhilfe: Rampen, Kurven, hohe Lasten und Lasten weit vorne erhöhen das Risiko.
+        </div>
+
+        <div class="case-box">
+          <div class="case-title">Situation 1</div>
+          <div class="case-text">
+            Der Stapler transportiert eine <strong>leichte Last</strong>. Die Last ist <strong>nah beim Mast</strong> und die Gabel ist <strong>tief</strong>.
+          </div>
+          <select id="s1">
+            <option value="">Bitte wählen</option>
+            <option value="stabil">stabil</option>
+            <option value="kritisch">kritisch</option>
+            <option value="kippgefährdet">kippgefährdet</option>
+          </select>
+        </div>
+
+        <div class="case-box">
+          <div class="case-title">Situation 2</div>
+          <div class="case-text">
+            Der Stapler hat eine <strong>schwere Last</strong>. Die Last ist <strong>weit vorne</strong> auf der Gabel, aber die Gabel bleibt <strong>noch tief</strong>.
+          </div>
+          <select id="s2">
+            <option value="">Bitte wählen</option>
+            <option value="stabil">stabil</option>
+            <option value="kritisch">kritisch</option>
+            <option value="kippgefährdet">kippgefährdet</option>
+          </select>
+        </div>
+
+        <div class="case-box">
+          <div class="case-title">Situation 3</div>
+          <div class="case-text">
+            Der Stapler fährt mit einer <strong>mittleren Last</strong>, die Last ist <strong>weit angehoben</strong> und der Fahrer fährt eine Kurve.
+          </div>
+          <select id="s3">
+            <option value="">Bitte wählen</option>
+            <option value="stabil">stabil</option>
+            <option value="kritisch">kritisch</option>
+            <option value="kippgefährdet">kippgefährdet</option>
+          </select>
+        </div>
+
+        <div class="case-box">
+          <div class="case-title">Situation 4</div>
+          <div class="case-text">
+            Der Stapler trägt eine <strong>sehr schwere Last</strong>, die <strong>weit vorne</strong> liegt, und die Gabel ist <strong>angehoben</strong>.
+          </div>
+          <select id="s4">
+            <option value="">Bitte wählen</option>
+            <option value="stabil">stabil</option>
+            <option value="kritisch">kritisch</option>
+            <option value="kippgefährdet">kippgefährdet</option>
+          </select>
+        </div>
+
+        <div class="buttons">
+          <button onclick="pruefen()">Lösungen prüfen</button>
+          <button class="secondary" onclick="zuruecksetzen()">Zurücksetzen</button>
+        </div>
+
+        <div id="result" class="result"></div>
+
+        <div class="discussion-box">
+          <h3>Zusatzfrage für die Gruppe</h3>
+          <p>
+            Diskutiert in der Gruppe: Welche drei Regeln sind beim Fahren mit Last besonders wichtig,
+            damit ein Stapler nicht kippt?
+          </p>
+          <div class="badge">Gruppengespräch statt Eingabe</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function pruefen() {
+      const loesungen = {
+        s1: "stabil",
+        s2: "kritisch",
+        s3: "kritisch",
+        s4: "kippgefährdet"
+      };
+
+      let korrekt = 0;
+      let total = 4;
+
+      for (const id in loesungen) {
+        const feld = document.getElementById(id);
+        const eingabe = feld.value;
+        const richtig = loesungen[id];
+
+        if (eingabe === richtig) {
+          korrekt++;
+          feld.style.border = "2px solid #3c9a52";
+          feld.style.backgroundColor = "#eef9f0";
+        } else {
+          feld.style.border = "2px solid #c94141";
+          feld.style.backgroundColor = "#fff1f1";
+        }
+      }
+
+      const result = document.getElementById("result");
+
+      if (korrekt === total) {
+        result.className = "result good";
+        result.innerHTML = "Sehr gut – alle 4 Situationen wurden richtig beurteilt.";
+      } else {
+        result.className = "result bad";
+        result.innerHTML = "Noch nicht alles richtig. Richtig sind <strong>" + korrekt + " von 4</strong> Situationen.";
+      }
+    }
+
+    function zuruecksetzen() {
+      const ids = ["s1", "s2", "s3", "s4"];
+
+      ids.forEach(id => {
+        const feld = document.getElementById(id);
+        feld.value = "";
+        feld.style.border = "1px solid #b8cbe0";
+        feld.style.backgroundColor = "white";
+      });
+
+      const result = document.getElementById("result");
+      result.className = "result";
+      result.innerHTML = "";
+    }
+  </script>
+</body>
+</html>
