@@ -347,19 +347,19 @@
           <div class="calc-item">
             <div><span class="formula">1.</span> Kraft = 500 N, Hebelarm = 2 m</div>
             <label for="calc1">Drehmoment:</label>
-            <input type="text" id="calc1" placeholder="z. B. 1000 Nm">
+            <input type="text" id="calc1" placeholder="Drehmoment eingeben">
           </div>
 
           <div class="calc-item">
             <div><span class="formula">2.</span> Kraft = 300 N, Hebelarm = 1.5 m</div>
             <label for="calc2">Drehmoment:</label>
-            <input type="text" id="calc2" placeholder="z. B. 450 Nm">
+            <input type="text" id="calc2" placeholder="Drehmoment eingeben">
           </div>
 
           <div class="calc-item">
             <div><span class="formula">3.</span> Kraft = 800 N, Hebelarm = 0.5 m</div>
             <label for="calc3">Drehmoment:</label>
-            <input type="text" id="calc3" placeholder="z. B. 400 Nm">
+            <input type="text" id="calc3" placeholder="Drehmoment eingeben">
           </div>
         </div>
       </div>
@@ -372,6 +372,12 @@
       zone2: "Drehpunkt / Drehachse",
       zone3: "Hebelarm der Last",
       zone4: "Last"
+    };
+
+    const rechenLoesungen = {
+      calc1: "1000",
+      calc2: "450",
+      calc3: "400"
     };
 
     const platzierungen = {};
@@ -462,36 +468,69 @@
       }
     }
 
+    function normalizeAnswer(text) {
+      return text
+        .toLowerCase()
+        .replaceAll("newtonmeter", "")
+        .replaceAll("nm", "")
+        .replaceAll(" ", "")
+        .replaceAll(",", ".");
+    }
+
     function pruefen() {
       const result = document.getElementById("result");
 
-      const alleGefuellt =
+      const alleBegriffeGefuellt =
         platzierungen.zone1 &&
         platzierungen.zone2 &&
         platzierungen.zone3 &&
         platzierungen.zone4;
 
-      if (!alleGefuellt) {
+      if (!alleBegriffeGefuellt) {
         result.className = "result bad";
         result.textContent = "Bitte zuerst alle vier Begriffe zuordnen.";
         return;
       }
 
-      let korrekt = true;
+      let begriffeKorrekt = true;
 
       for (const zoneId in loesung) {
         if (platzierungen[zoneId] !== loesung[zoneId]) {
-          korrekt = false;
+          begriffeKorrekt = false;
           break;
         }
       }
 
-      if (korrekt) {
+      const rechenFelder = ["calc1", "calc2", "calc3"];
+      let rechnungenKorrekt = 0;
+
+      rechenFelder.forEach(id => {
+        const feld = document.getElementById(id);
+        const eingabe = normalizeAnswer(feld.value);
+        const richtig = rechenLoesungen[id];
+
+        if (eingabe === richtig) {
+          rechnungenKorrekt++;
+          feld.style.border = "2px solid #3c9a52";
+          feld.style.backgroundColor = "#eef9f0";
+        } else {
+          feld.style.border = "2px solid #c94141";
+          feld.style.backgroundColor = "#fff1f1";
+        }
+      });
+
+      if (begriffeKorrekt && rechnungenKorrekt === 3) {
         result.className = "result good";
-        result.textContent = "Richtig – alle Begriffe sind korrekt zugeordnet.";
+        result.textContent = "Sehr gut – Zuordnung und alle 3 Rechnungen sind richtig.";
+      } else if (begriffeKorrekt) {
+        result.className = "result bad";
+        result.textContent = "Die Zuordnung ist richtig, aber bei den Rechnungen stimmen noch nicht alle Ergebnisse.";
+      } else if (rechnungenKorrekt === 3) {
+        result.className = "result bad";
+        result.textContent = "Die Rechnungen sind richtig, aber die Zuordnung stimmt noch nicht ganz.";
       } else {
         result.className = "result bad";
-        result.textContent = "Noch nicht ganz richtig. Prüft die Zuordnung nochmals.";
+        result.textContent = "Es stimmt noch nicht alles. Prüft die Zuordnung und die Rechnungen nochmals.";
       }
     }
 
@@ -508,9 +547,12 @@
         chip.style.opacity = "1";
       });
 
-      document.getElementById("calc1").value = "";
-      document.getElementById("calc2").value = "";
-      document.getElementById("calc3").value = "";
+      ["calc1", "calc2", "calc3"].forEach(id => {
+        const feld = document.getElementById(id);
+        feld.value = "";
+        feld.style.border = "1px solid #b8cbe0";
+        feld.style.backgroundColor = "white";
+      });
 
       const result = document.getElementById("result");
       result.className = "result";
